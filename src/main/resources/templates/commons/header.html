@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+<body>
+<!-- 登录 注册 购物车... -->
+<div th:fragment="header" class="container-fluid">
+
+	<div class="row">
+		<input type="hidden" name="user" id="user" th:if="${session.user != null}" th:value="${session.user.nickname }">
+		<div class="col-md-3">
+			<!--<img src="" th:src="@{/img/logo2.png}"/>-->
+		</div>
+		<div class="col-md-4">
+			<img src="../img/header.png" th:src="@{/img/header.png}"/>
+		</div>
+		<div class="col-md-5">
+		<ul class="nav navbar" >
+			<li class="nav-item">
+				<form id="quick-search"  th:action="@{/dosearch.do}" method="get">
+					<input  id="key" name="key" th:value="${key!=null}?${key}" type="text"   title="快速搜索 " placeholder="搜索">
+					<input id="search-submit"  type="submit" value="搜索">
+				</form>
+			</li>
+			<li th:if="${session.user eq null}" class="nav-item" ><a href="#" th:if="${session.user eq null}" th:href="@{/user/loginPage.do}" th:text="登录"></a></li>
+			<li th:if="${session.user eq null}" class="nav-item" style="padding-left: 20px"><a href="#" th:if="${session.user eq null}" th:href="@{/user/register1.do}">注册</a></li>
+
+			<li class="nav-item dropdown" >
+				<a href="#"  class="nav-link dropdown-toggle" data-target="#" data-toggle="dropdown" th:if="${session.user != null}" th:text="${session.user.nickname}"></a>
+
+				<ul class="dropdown-menu">
+					<li>
+						<a rel="nofollow" th:href="@{/settings/info.do}" class="dropdown-item">
+							<div class="notification">
+								<div class="notification-content"><i class="fa fa-user "></i>个人信息</div>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a rel="nofollow" th:href="@{/settings/system.do}" class="dropdown-item">
+							<div class="notification">
+								<div class="notification-content"><i class="fa fa-cog"></i>设置</div>
+							</div>
+						</a>
+						<hr>
+					</li>
+					<li>
+						<a rel="nofollow" href="javascript:void(0);"  onclick="logout()" class="dropdown-item">
+							<div class="notification">
+								<div class="notification-content"><i class="fa fa-power-off"></i>退出登录</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="nav-item" ><a href="javascript:void(0);"  onclick="getCart()" >购物车</a></li>
+			<li class="nav-item" ><a href="javascript:void(0);"  onclick="getOrders()" >我的订单</a></li>
+		</ul>
+		</div>
+	</div>
+<!-- 导航条 -->
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#" th:href="@{/items/index.do}">首页</a>
+				</div>
+
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul  class="nav navbar-nav" id="categoryUl" >
+						<!--<li th:each="category:${session.categoryList}"><a href="#" th:href="@{/items/list.do}+'?cid='+${category.cid }" th:text="${category.cname }"></a></li>-->
+
+					</ul>
+
+					<!--<form class="navbar-form navbar-right" role="search">-->
+						<!--<div class="form-group">-->
+							<!--<input type="text" class="form-control" placeholder="Search">-->
+						<!--</div>-->
+						<!--<button type="submit" class="btn btn-default">Submit</button>-->
+					<!--</form>-->
+				</div>
+			</div>
+
+		</nav>
+		<script th:src="@{/js/header.js}" th:inline="javascript"> </script>
+		<script>
+            getCategoryList();
+		</script>
+	</div>
+</div>
+</body>

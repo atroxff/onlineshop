@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FF商城</title>
+	<!-- global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+	<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/model1/css/bootstrap.min.css}">
+	<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/model1/font-awesome-4.7.0/css/font-awesome.min.css}">
+	<link rel="stylesheet" href="css/font-icon-style.css" th:href="@{/model1/css/font-icon-style.css}">
+	<!--Global Javascript -->
+	<script src="js/jquery.min.js" th:src="@{/model1/js/jquery.min.js}"></script>
+	<script src="js/popper/popper.min.js" th:src="@{/model1/js/popper/popper.min.js}"></script>
+	<script src="js/tether.min.js" th:src="@{/model1/js/tether.min.js}"></script>
+	<script src="js/bootstrap.min.js" th:src="@{/model1/js/bootstrap.min.js}"></script>
+	<script src="js/jquery.cookie.js" th:src="@{/model1/js/jquery.cookie.js}"></script>
+	<script src="js/jquery.validate.min.js" th:src="@{/model1/js/jquery.validate.min.js}"></script>
+	<script src="js/chart.min.js" th:src="@{/model1/js/chart.min.js}"></script>
+	<script src="js/front.js" th:src="@{/model1/js/front.js}"></script>
+
+	<script type="text/javascript" src="../../static/js/commonVar.js" th:src="@{/js/commonVar.js}"></script>
+	<script type="text/javascript" src="../../static/js/header.js" th:src="@{/js/header.js}"></script>
+<style>
+body {
+	margin-top: 20px;
+	margin: 0 auto;
+}
+
+.carousel-inner .item img {
+	width: 100%;
+	height: 300px;
+}
+</style>
+
+<script type="text/javascript">
+	function confirmOrder(){
+	    alert("submit");
+		//提交表单
+		$("#orderForm").submit();
+	}
+
+
+</script>
+
+</head>
+
+<body>
+	<!-- 引入header-->
+	<div th:replace="commons/header::header"></div>
+	
+	<div class="container">
+		<div class="row" th:each="orderdetail:${orderList}">
+			<div style="margin: 0 auto; margin-top: 10px; width: 950px;">
+				<strong >订单详情</strong>
+				<table class="table table-bordered">
+					<tbody>
+						<tr class="warning">
+							<th colspan="5"  th:text="'订单编号:'+${orderdetail.order.oid }"></th>
+						</tr>
+						<tr class="warning">
+							<th colspan="5"  th:text="'订单时间:'+${orderdetail.order.ordertime }"></th>
+						</tr>
+						<tr class="warning">
+							<th colspan="5"  th:text="'订单金额:'+${orderdetail.order.total }"></th>
+						</tr>
+						<tr class="warning">
+							<th>图片</th>
+							<th>商品</th>
+							<th>价格</th>
+							<th>数量</th>
+							<th>小计</th>
+						</tr>
+						
+
+							<tr th:each="orderItemvo:${orderdetail.itemlist }" th:if="${orderdetail !=null && orderdetail.itemlist!=null}" class="active">
+								<td width="20%">
+									<img  th:src="@{/pic/}+${orderItemvo.product.pimage}" width="70" height="60">
+								</td>
+								<td width="30%"><a target="_blank" th:text="${orderItemvo.product.pname}"></a></td>
+								<td width="20%" th:text="'￥'+${orderItemvo.product.shop_price}+'元'"></td>
+								<td width="10%" th:text="${orderItemvo.orderItem.count}"></td>
+								<td width="20%"><span class="subtotal" th:text="'￥'+${orderItemvo.orderItem.subtotal }+'元'"></span></td>
+							</tr>
+
+
+						
+						
+						
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- 引入footer.jsp -->
+	<div th:replace="commons/footer::footer"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+
+    <title>Bootstrap Admin Template </title>
+    <link rel="shortcut icon" href="img/favicon.ico" th:href="@{/model1/img/favicon.ico}">
+
+    <!-- global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/model1/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/model1/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <link rel="stylesheet" href="css/font-icon-style.css" th:href="@{/model1/css/font-icon-style.css}">
+    <link rel="stylesheet" href="css/style.default.css" th:href="@{/model1/css/style.default.css}" id="theme-stylesheet">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="css/apps/email.css" th:href="@{/model1/css/apps/email.css}">
+</head>
+
+<body>
+
+<!--====================================================
+                         MAIN NAVBAR
+======================================================-->
+    <header th:replace="model1/common/bar::topbar"></header>
+
+<!--====================================================
+                        PAGE CONTENT
+======================================================-->
+    <div class="page-content d-flex align-items-stretch">
+
+        <!--***** SIDE NAVBAR *****-->
+        <nav th:replace="model1/common/bar::sidebar(activeUri='category_mng')"></nav>
+
+        <div class="content-inner chart-cont">
+
+            <!--***** CONTENT *****-->
+            <div class="row">
+                <table>
+                    <tr>
+                        <td> <label for="showSize">请选择网站导航栏展示菜单个数（按排序号从小到大）：</label></td>
+
+
+                        <td>
+                    <select class="form-control" id="showSize">
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                        </td>
+                        <td>
+                        <a  href="javascript:void(0);" th:onclick="'javascript:changeShowSize();'" id="submit2" class="btn btn-info">确认修改</a>
+                        </td>
+                    </tr>
+                </table>
+
+            <div class="col-md-12">
+                <div class="inbox-body">
+                    <a href="#myModal" data-toggle="modal" title="Compose" class="btn btn-success"> 添加新分类 </a>
+                    <!-- Modal -->
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade" style="display: none;">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">添加新分类</h4>
+                                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form role="form" class="form-horizontal" th:action="@{/admin/category/add.do}" th:method="post">
+                                        <div class="row form-group">
+                                            <label class="col-lg-3 control-label">分类名称</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" placeholder="" id="cname" class="form-control">
+                                                <div style=";color: #FF0000" id="cname_tip">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label for="num" class="col-lg-3 control-label">排序号</label>
+                                            <div class="col-lg-9">
+                                                <input type="text" placeholder="" id="num" class="form-control">
+                                                <div style="color: #FF0000" id="num_tip">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="offset-lg-2 col-lg-10">
+                                                <a  href="javascript:void(0);" th:onclick="'javascript:submit();'" id="submit" class="btn btn-sm btn-success">提交</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+                    <div class="modal fade" id="changeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel">修改分类</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="cname_chg" class="control-label">分类编号:</label>
+                                            <span id="cid_chg"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cname_chg" class="control-label">分类名称:</label>
+                                            <input type="text" class="form-control" id="cname_chg">
+                                            <span style=";color: #FF0000" id="cname_chg_tip"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="num_chg" class="control-label">排序号:</label>
+                                            <input type="text" class="form-control" id="num_chg">
+                                            <span style=";color: #FF0000" id="num_chg_tip"></span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" onclick="changeCategory()">确认</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+            <table class="table table-hover">
+                    <thead>
+                    <tr class="bg-info text-white">
+                        <th scope="row">#</th>
+                        <th>分类编号</th>
+                        <th>分类名称</th>
+                        <th>排序号</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category,cindex:${categoryList}">
+                        <td th:text="${cindex.index+1}"></td>
+                        <td th:text="${category.cid}"></td>
+                        <td th:text="${category.cname}"></td>
+                        <td th:text="${category.num}"></td>
+                        <td >
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#changeModal"
+                                    th:data-cid="${category.cid}" th:data-cname="${category.cname}" th:data-num="${category.num}">修改
+                            </button>
+                            <a  href="javascript:void(0);" th:onclick="'javascript:deleteCategory('+${category.cid}+');'" id="delete" class="btn btn-sm btn-danger">删除</a>
+                        </td>
+
+                        <!--<td>-->
+                            <!--<a class="btn btn-sm btn-primary" th:href="@{/item/}+${item.id}">详情</a>-->
+                            <!--<button th:attr="del_uri=@{/item/}+${item.id}" class="btn btn-sm btn-success">购买</button>-->
+                            <!--<button th:attr="del_uri=@{/item/}+${item.id}" class="btn btn-sm btn-danger deleteBtn">加入购物车</button>-->
+
+                        <!--</td>-->
+                    </tr>
+                    </tbody>
+            </table>
+             </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--Global Javascript -->
+    <script src="js/jquery.min.js" th:src="@{/model1/js/jquery.min.js}"></script>
+    <script src="js/popper/popper.min.js" th:src="@{/model1/js/popper/popper.min.js}"></script>
+    <script src="js/tether.min.js" th:src="@{/model1/js/tether.min.js}"></script>
+    <script src="js/bootstrap.min.js" th:src="@{/model1/js/bootstrap.min.js}"></script>
+    <script src="js/jquery.cookie.js" th:src="@{/model1/js/jquery.cookie.js}"></script>
+    <script src="js/jquery.validate.min.js" th:src="@{/model1/js/jquery.validate.min.js}"></script>
+    <script src="js/chart.min.js" th:src="@{/model1/js/chart.min.js}"></script>
+    <script src="js/front.js" th:src="@{/model1/js/front.js}"></script>
+
+    <!--Core Javascript -->
+    <script src="js/mychart.js" th:src="@{/model1/js/mychart.js}"></script>
+
+    <!--  自定义js  -->
+    <script src="" th:src="@{/model1/js/category/category_mng.js}"></script>
+    <script type="text/javascript" src="../../static/js/commonVar.js" th:src="@{/js/commonVar.js}"></script>
+
+</body>
+
+</html>

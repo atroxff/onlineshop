@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.ff.onlineshop.mapper.dao.UserDao">
+    <select id="getUser" parameterType="long" resultType="user">
+        select id, username as userName , sex , note from t_user where id= #{id}
+    </select>
+    
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="id" >
+        insert into t_user(username,note) value(#{userName},#{note})
+    </insert>
+</mapper>

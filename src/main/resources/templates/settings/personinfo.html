@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>个人信息</title>
+
+<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/model1/css/bootstrap.min.css}">
+<script src="js/jquery.min.js" th:src="@{/model1/js/jquery.min.js}"></script>
+<!-- 引入表单校验jquery插件 -->
+<script src="js/jquery.validate.min.js" th:src="@{/asserts/js/jquery.validate.min.js}" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" th:src="@{/model1/js/bootstrap.min.js}"></script>
+<!-- 引入自定义css文件 style.css -->
+<link rel="stylesheet" href="css/style.css"  th:href="@{/asserts/css/style.css}" type="text/css" />
+
+<style>
+	body {
+		margin-top: 20px;
+		margin: 0 auto;
+	}
+
+	.carousel-inner .item img {
+		width: 100%;
+		height: 300px;
+	}
+
+	font {
+		color: #3164af;
+		font-size: 18px;
+		font-weight: normal;
+		padding: 0 10px;
+	}
+
+	.error{
+		color:red
+	}
+</style>
+
+
+<!-- 前端校验方法 -->
+<script type="text/javascript">
+
+    $(function(){
+        $("#myform").validate({
+            rules:{
+                "username":{
+                    "required":true,
+                },
+                "email":{
+                    "required":true,
+                    "email":true
+                },
+                "sex":{
+                    "required":true
+                },
+                "phone":{
+                    "required":true
+                }
+            },
+            messages:{
+                "username":{
+                    "required":"用户名不能为空",
+                    "checkUsername":"用户名已存在"
+                },
+                "password":{
+                    "required":"密码不能为空",
+                    "rangelength":"密码长度6-12位"
+                },
+                "repassword":{
+                    "required":"密码不能为空",
+                    "rangelength":"密码长度6-12位",
+                    "equalTo":"两次密码不一致"
+                },
+                "email":{
+                    "required":"邮箱不能为空",
+                    "email":"邮箱格式不正确"
+                },
+                "phone":{
+                    "required":"手机号不能为空"
+                }
+            }
+        });
+    });
+
+</script>
+
+</head>
+<body>
+
+<!-- 引入header -->
+<!--<div th:replace="commons/header::header"></div>-->
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8"
+			 style="background: #fff; padding: 40px 80px; margin: 30px; border: 7px solid #ccc;">
+			<form id="myform" class="form-horizontal" th:action="@{/settings/info.do}" th:method="post"  method="post" style="margin-top: 5px;">
+				<div class="form-group row" ><label class="col-sm-8 control-label">用户个人信息修改</label></div>
+				<span th:text="${msg!=null}?${msg}"></span>
+				<div class="form-group row" >
+					<label for="username" class="col-sm-2 control-label">用户名</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="username" name="username"
+							   placeholder="请输入用户名"  th:value="${session.user.username}" disabled>
+                        <label id="usernametip"  style="display:none" th:style="display" th:class="error"  th:unless="${errors eq null or errors['username'] eq null}" th:text="${errors['username']}"></label>
+                    <!--style="display:none "-->
+                    </div>
+				</div>
+				<div class="form-group row">
+					<label for="name" class="col-sm-2 control-label">姓名</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="name" name="name"
+							   placeholder="请输入姓名"
+							   th:value="${session.user.name}" disabled>
+						<label id="nametip"  style="display:none" th:style="display" th:class="error"  th:unless="${errors eq null or errors['name'] eq null}" th:text="${errors['name']}"></label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="nickname" class="col-sm-2 control-label">昵称</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="nickname" name="nickname"
+							   placeholder="请输入密码" th:value="${session.user.nickname}">
+                        <label id="nicknametip"  style="display:none" th:style="display" th:class="error"  th:unless="${errors eq null or errors['password'] eq null}" th:text="${errors['password']}"></label>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="email" class="col-sm-2 control-label">Email</label>
+					<div class="col-sm-6">
+						<input type="email" class="form-control" id="email" name="email"
+							   placeholder="Email" th:value="${session.user.email}">
+                        <label id="emailtip"  style="display:none" th:style="display" th:class="error"  th:unless="${errors eq null or errors['email'] eq null}" th:text="${errors['email']}"></label>
+
+                    </div>
+				</div>
+
+				<div class="form-group row opt">
+					<label  class="col-sm-2 control-label">性别</label>
+					<div class="col-sm-6">
+						<label class="radio-inline">
+							<input type="radio" name="sex" id="sex1" value="男" th:checked="${session.user.sex=='男'}?${session.user.sex}">男
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="sex" id="sex2" value="女" th:checked="${session.user.sex=='女'}?${session.user.sex}">女
+						</label>
+						<label class="error" for="sex" style="display:none ">您还没有选择</label>
+                        <label id="sextip"  style="display:none" th:style="display" th:class="error"  th:unless="${errors eq null or errors['sex'] eq null}" th:text="${errors['sex']}"></label>
+
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="birth" class="col-sm-2 control-label">出生日期</label>
+					<div class="col-sm-6">
+						<input type="date" class="form-control" id="birth" name="birth" th:value="${#dates.format(session.user.birth,'yyyy-MM-dd')}">
+                        <label id="birthtip"  style="display:none" th:style="display" th:class="error"  th:unless="${errors eq null or errors['birth'] eq null}" th:text="${errors['birth']}"></label>
+                    </div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-sm-offset-2 col-sm-10" style="text-align: center">
+						<input type="submit" width="100" value="完成" name="submit"
+							   style="background: url('../images/register.gif') no-repeat scroll 0 0 rgba(0, 0, 0, 0); height: 35px; width: 100px; color: white;"
+						>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="col-md-2"></div>
+
+	</div>
+</div>
+
+
+</body>
+</html>
+
+
+
+

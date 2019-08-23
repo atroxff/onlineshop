@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+
+    <title>Bootstrap Admin Template </title>
+    <link rel="shortcut icon" href="img/favicon.ico" th:href="@{/model1/img/favicon.ico}">
+
+    <!-- global stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/model1/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/model1/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <link rel="stylesheet" href="css/font-icon-style.css" th:href="@{/model1/css/font-icon-style.css}">
+    <link rel="stylesheet" href="css/style.default.css" th:href="@{/model1/css/style.default.css}" id="theme-stylesheet">
+
+    <!-- Core stylesheets -->
+    <link rel="stylesheet" href="css/form.css"  th:href="@{/model1/css/form.css}">
+</head>
+
+<body> 
+
+<!--====================================================
+                         MAIN NAVBAR
+======================================================-->
+    <header th:replace="model1/common/bar::topbar"></header>
+
+<!--====================================================
+                        PAGE CONTENT
+======================================================-->
+    <div class="page-content d-flex align-items-stretch">
+
+        <!--***** SIDE NAVBAR *****-->
+        <nav th:replace="model1/common/bar::sidebar(activeUri='product_mng')"></nav>
+
+        <div class="content-inner chart-cont">
+
+            <!--***** CONTENT *****-->     
+            <div class="row">
+
+                <!--***** FORM INPUTS *****-->
+                <div class="col-md-12">
+                    <form id="form1" name="form1" th:action="@{/admin/product/add.do}" th:method="post" enctype="multipart/form-data">
+                    <div class="card form">
+                    <div class="card-header">
+                        <h3>添加商品</h3>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="pname" style="width: 85px;" class=" col-form-label">商品名称</label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text"  id="pname" name="pname">
+                                    <div style="color: #FF0000" id="pname_tip"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="categoryid" style="width: 85px;" class=" col-form-label">商品分类</label>
+                                <div class="col-9" >
+                                    <select class="form-control" id="categoryid"  name="categoryid">
+                                        <option value="" disabled selected></option>
+                                        <option  th:value="${category.cid}" th:each="category:${categoryList}" th:text="${category.cname}">1</option>
+                                    </select>
+                                    <div style="color: #FF0000" id="categoryid_tip"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="shop_price" style="width: 85px;" class=" col-form-label">商城价</label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text"  id="shop_price" name="shop_price">
+                                    <div style="color: #FF0000" id="shop_price_tip"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="market_price" style="width: 85px;" class=" col-form-label">市场价</label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text"  id="market_price" name="market_price">
+                                    <div style="color: #FF0000" id="market_price_tip"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!--<div class="form-group row">-->
+                                <!--<label for="pdate" style="width: 85px;" class=" col-form-label">上架日期</label>-->
+                                <!--<div class="col-9">-->
+                                    <!--<input class="form-control" type="text"  id="pdate" name="pdate" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd hh:mm:ss')}">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group row">
+                                <label for="is_hot" style="width: 85px;" class=" col-form-label">热门标记</label>
+                                <div class="col-9">
+                                    <select class="form-control" id="is_hot" name="is_hot">
+                                        <option selected disabled></option>
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                                    </select>
+                                    <div style="color: #FF0000" id="is_hot_tip"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pdesc" style="width: 85px;" class=" col-form-label">商品描述</label>
+                                <div class="col-9">
+                                    <textarea rows="3" cols="30"   class="form-control" id="pdesc" name="pdesc"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="pimage_pic" style="width: 85px;" class=" col-form-label">商品图片</label>
+                                <div class="col-9">
+                                    <input type="file" class="form-control-file" id="pimage_pic" name="pimage_pic">
+                                    <div style="color: #FF0000" id="pimage_pic_tip"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-9">
+                                    <button type="button" class="btn btn-success" onclick="validateAndSubmit()">完成</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </form>
+                </div>
+            </div> 
+
+        </div>
+    </div>
+
+    <!--Global Javascript -->
+    <script src="js/jquery.min.js" th:src="@{/model1/js/jquery.min.js}"></script>
+    <script src="js/popper/popper.min.js" th:src="@{/model1/js/popper/popper.min.js}"></script>
+    <script src="js/tether.min.js" th:src="@{/model1/js/tether.min.js}"></script>
+    <script src="js/bootstrap.min.js" th:src="@{/model1/js/bootstrap.min.js}"></script>
+    <script src="js/jquery.cookie.js" th:src="@{/model1/js/jquery.cookie.js}"></script>
+    <script src="js/jquery.validate.min.js" th:src="@{/model1/js/jquery.validate.min.js}"></script>
+    <script src="js/chart.min.js" th:src="@{/model1/js/chart.min.js}"></script>
+    <script src="js/front.js" th:src="@{/model1/js/front.js}"></script>
+
+    <!--Core Javascript -->
+    <script src="js/mychart.js" th:src="@{/model1/js/mychart.js}"></script>
+    <script src="" th:src="@{/model1/js/product/product_add.js}"></script>
+</body>
+
+</html>

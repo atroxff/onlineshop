@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="footer">
+
+	<div style="margin-top:10px;">
+		<img src="img/footer.jpg" th:src="@{/img/footer.jpg}" width="100%" height="78" alt="我们的优势" title="我们的优势" />
+	</div>
+
+	<div style="margin-top: 5px">
+		<ul class="nav">
+			<li class="nav item" style="padding-left: 250px"><a th:href="@{/base/aboutMe.do}">关于我们</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>联系我们</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>招贤纳士</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>法律声明</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>友情链接</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>支付方式</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>配送方式</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>服务声明</a></li>
+			<li class="nav item" style="padding-left: 50px"><a>广告声明</a></li>
+		</ul>
+	</div>
+	<div style="text-align: center;margin-top: 5px;margin-bottom:20px;">
+		Copyright &copy;
+	</div>
+</div>

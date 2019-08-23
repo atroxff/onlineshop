@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FF商城</title>
+	<!-- global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+	<link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/model1/css/bootstrap.min.css}">
+	<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/model1/font-awesome-4.7.0/css/font-awesome.min.css}">
+	<link rel="stylesheet" href="css/font-icon-style.css" th:href="@{/model1/css/font-icon-style.css}">
+	<!--Global Javascript -->
+	<script src="js/jquery.min.js" th:src="@{/model1/js/jquery.min.js}"></script>
+	<script src="js/popper/popper.min.js" th:src="@{/model1/js/popper/popper.min.js}"></script>
+	<script src="js/tether.min.js" th:src="@{/model1/js/tether.min.js}"></script>
+	<script src="js/bootstrap.min.js" th:src="@{/model1/js/bootstrap.min.js}"></script>
+	<script src="js/jquery.cookie.js" th:src="@{/model1/js/jquery.cookie.js}"></script>
+	<script src="js/jquery.validate.min.js" th:src="@{/model1/js/jquery.validate.min.js}"></script>
+	<script src="js/chart.min.js" th:src="@{/model1/js/chart.min.js}"></script>
+	<script src="js/front.js" th:src="@{/model1/js/front.js}"></script>
+
+	<script type="text/javascript" src="../../static/js/commonVar.js" th:src="@{/js/commonVar.js}"></script>
+	<script type="text/javascript" src="../../static/js/header.js" th:src="@{/js/header.js}"></script>
+<style>
+body {
+	margin-top: 20px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.carousel-inner .item img {
+	width: 100%;
+	height: 300px;
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- 引入header.jsp -->
+<div th:replace="commons/header::header"></div>
+
+	<div class="container">
+		<nav class="navbar navbar-expand-sm bg-light navbar-light">
+			<ul class="navbar-nav">
+			<li class="nav-item ">
+			<a class="nav-link" href="#">首页</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link active" href="#" th:text="'-'+${category.cname}"></a>
+			</li>
+			</ul>
+		</nav>
+	</div>
+
+	<!--商品数据-->
+	<div class="container">
+		<div class="row" style="width: 1210px; margin: 0 auto;padding-top: 20px">
+		<div th:each="pro:${pageBean.list }" class="col-md-2" style="height:250px">
+			<a th:href="@{/items/info.do}+'?cid='+${cid}+'&pid='+${pro.pid}+'&page='+${pageBean.currentPage}">
+				<img th:src="@{/pic/}+${pro.pimage}" width="170" height="170" style="display: inline-block;">
+			</a>
+			<p>
+				<a href="${pageContext.request.contextPath }/productInfo?pid=${pro.pid}&cid=${cid}&currentPage=${pageBean.currentPage}" style='color: green' th:text="${pro.pname}"></a>
+			</p>
+			<p>
+				<span style="color:#FF0000" th:text="'商城价:￥'+${pro.shop_price }"></span>
+			</p>
+		</div>
+	</div>
+	</div>
+	<!--分页 -->
+	<div style="width: 380px; margin: 0 auto; margin-top: 50px;">
+		<ul class="pagination" style="text-align: center; margin-top: 10px;">
+
+		<!-- 上一页 -->
+
+			<li class="disabled" th:if="${pageBean.currentPage==1 }">
+				<a href="javascript:void(0);" aria-label="Previous">
+					<span aria-hidden="true">&laquo; 上一页</span>
+				</a>
+			</li>
+
+
+			<li th:if="${pageBean.currentPage!=1 }">
+				<a href="${pageContext.request.contextPath}/productListByCid?cid=${cid}&currentPage=${pageBean.currentPage-1 }" th:href="@{/items/list.do}+'?cid='+${cid}+'&page='+${pageBean.currentPage-1}" aria-label="Previous">
+					<span aria-hidden="true">&laquo; 上一页</span>
+				</a>
+			</li>
+
+		<!-- 显示每一页 -->
+
+
+			<li th:each="page:${pageList}" style="padding-left: 5px">
+				<a href="javascript:void(0);" th:href="@{/items/list.do}+'?cid='+${cid}+'&page='+${page}" th:text="${page}"></a>
+			</li>
+
+
+
+
+
+		<!-- 下一页 -->
+
+			<li th:if="${pageBean.currentPage==pageBean.totalPage }" class="disabled">
+				<a href="javascript:void(0);" aria-label="Next">
+						<span aria-hidden="true">下一页 &raquo;</span>
+				</a>
+			</li>
+
+
+			<li th:if="${pageBean.currentPage!=pageBean.totalPage }">
+				<a th:href="@{/items/list.do}+'?cid='+${cid}+'&page='+${pageBean.currentPage+1}" aria-label="Next">
+					<span aria-hidden="true">下一页 &raquo;</span>
+				</a>
+			</li>
+
+
+		</ul>
+	</div>
+<!-- 分页结束 -->
+
+<!--商品浏览记录-->
+<div
+		style="width: 1210px; margin: 0 auto; padding: 0 9px; border: 1px solid #ddd; border-top: 2px solid #999; height: 246px;">
+
+	<h4 style="width: 50%; float: left; font: 14px/30px 微软雅黑">浏览记录</h4>
+	<div style="width: 50%; float: right; text-align: right;">
+		<a href="">more</a>
+	</div>
+	<div style="clear: both;"></div>
+
+	<div style="overflow: hidden;">
+
+		<ul style="list-style: none;">
+
+			<li th:each="historyPro:${historyProductList }" style="width: 150px; height: 216; float: left; margin: 0 8px 0 0; padding: 0 18px 15px; text-align: center;">
+				<img th:src="@{/pic/}+${historyPro.pimage}" width="130px" height="130px" />
+				<label th:text="${historyPro.pname}"></label>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+<!-- 引入footer.jsp -->
+<div th:replace="commons/footer::footer"></div>
+</body>
+
+</html>
